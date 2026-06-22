@@ -39,7 +39,7 @@ export const DEFAULT_BRAND_SETTINGS: BrandSettings = {
   logoLight: 'images/logos/logo-light.png',
   favicon: 'images/logos/favicon.png',
   titleText: 'Taskly',
-  footerText: '© 2026 Taskly. All rights reserved.',
+  footerText: '© 2026 Taskly. جميع الحقوق محفوظة.',
   themeColor: 'green',
   customColor: '#10B77f',
   sidebarVariant: 'inset',
@@ -560,14 +560,14 @@ export default function BrandSettings({ userSettings }: BrandSettingsProps) {
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 gap-6">
                     <div className="space-y-3">
-                      <Label required htmlFor="titleText">{t("Title Text")}</Label>
+                      <Label required htmlFor="titleText">{t("Title")}</Label>
                       <Input
                       required
                         id="titleText"
                         name="titleText"
                         value={settings.titleText}
                         onChange={handleInputChange}
-                        placeholder="WorkDo"
+                        placeholder={t('Taskly')}
                       />
                       <p className="text-xs text-muted-foreground">
                         {t("Application title displayed in the browser tab")}
@@ -575,14 +575,14 @@ export default function BrandSettings({ userSettings }: BrandSettingsProps) {
                     </div>
 
                     <div className="space-y-3">
-                      <Label required htmlFor="footerText">{t("Footer Text")}</Label>
+                      <Label required htmlFor="footerText">{t("Footer")}</Label>
                       <Input
                       required
                         id="footerText"
                         name="footerText"
                         value={settings.footerText}
                         onChange={handleInputChange}
-                        placeholder="© 2026 WorkDo. All rights reserved."
+                        placeholder={t('© 2026 Taskly. All rights reserved.')}
                       />
                       <p className="text-xs text-muted-foreground">
                         {t("Text displayed in the footer")}

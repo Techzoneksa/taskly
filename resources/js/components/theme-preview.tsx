@@ -4,8 +4,10 @@ import { SidebarMenuSkeleton } from '@/components/ui/sidebar';
 import { useThemePreview } from '@/hooks/use-theme-preview';
 import { useLogos } from '@/contexts/LogoContext';
 import { useAppearance } from '@/hooks/use-appearance';
+import { useTranslation } from 'react-i18next';
 
 export function ThemePreview() {
+  const { t } = useTranslation();
   const { themeColor, position, variant, collapsible, style } = useThemePreview();
   const { appearance } = useAppearance(); // Get appearance directly for immediate updates
   const { logoLight, logoDark } = useLogos();
@@ -68,15 +70,15 @@ export function ThemePreview() {
     }
   };
   
-  // Get title text
+// Get title text
   const getTitleText = () => {
-    return 'WorkDo';
+    return 'Taskly';
   };
-  
+
   return (
     <div className="border rounded-lg overflow-hidden">
       <div className="bg-neutral-100 dark:bg-neutral-800 p-2 text-xs font-medium flex justify-between items-center">
-        <div>Theme Preview</div>
+        <div>{t('Theme Preview')}</div>
         <div className="flex gap-2">
           <span className="px-2 py-1 bg-primary/10 text-primary rounded">{appearance}</span>
           <span className="px-2 py-1 bg-primary/10 text-primary rounded">{themeColor}</span>
