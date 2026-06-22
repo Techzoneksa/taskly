@@ -230,7 +230,7 @@ export default function NotificationTemplatesIndex({ templates, filters: pageFil
               {templates?.data?.map((template: NotificationTemplate) => (
                 <tr key={template.id} className="border-b hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-800">
                   <td className="px-4 py-3">
-                    <div className="font-medium">{template.name}</div>
+                    <div className="font-medium">{t(template.name)}</div>
                   </td>
                   <td className="px-4 py-3 text-right">
                     <Tooltip>

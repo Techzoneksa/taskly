@@ -1,4 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+
 /* RTL Layout Direction - Minimal and Focused */
+
+/* Apply Arabic font at html level FIRST to override everything */
+html[dir="rtl"],
+html[lang="ar"] {
+  font-family: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif !important;
+}
+
+/* Force font on body with highest specificity */
+html[dir="rtl"] body.font-sans,
+html[lang="ar"] body.font-sans,
+html[dir="rtl"] body,
+html[lang="ar"] body,
+html.rtl body.font-sans,
+.rtl body.font-sans {
+  font-family: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important;
+}
+
+/* Target ALL elements inside RTL body - override Tailwind's font-sans class */
+html[dir="rtl"] body .font-sans,
+html[dir="rtl"] body.font-sans,
+html[lang="ar"] body .font-sans,
+html[lang="ar"] body.font-sans {
+  font-family: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif !important;
+}
 
 /* Core RTL Direction */
 html[dir="rtl"],

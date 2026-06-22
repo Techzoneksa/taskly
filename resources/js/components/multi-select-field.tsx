@@ -1,5 +1,6 @@
 // components/multi-select-field.tsx
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { X } from 'lucide-react';
@@ -12,6 +13,7 @@ interface MultiSelectFieldProps {
 }
 
 export function MultiSelectField({ field, formData, handleChange }: MultiSelectFieldProps) {
+  const { t } = useTranslation();
   // Ensure selected value is always an array of strings
   const selectedValues = Array.isArray(formData[field.name]) 
     ? formData[field.name] 
@@ -62,7 +64,7 @@ export function MultiSelectField({ field, formData, handleChange }: MultiSelectF
             </SelectItem>
           ))}
           {filteredOptions.length === 0 && (
-            <div className="px-3 py-2 text-sm text-muted-foreground">No results found.</div>
+            <div className="px-3 py-2 text-sm text-muted-foreground">{t('No results found')}</div>
           )}
         </SelectContent>
       </Select>

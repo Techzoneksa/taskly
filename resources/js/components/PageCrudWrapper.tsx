@@ -403,7 +403,7 @@ export function PageCrudWrapper({
                     onClick={() => setShowFilters(!showFilters)}
                   >
                     <Filter className="h-3.5 w-3.5 mr-1.5" />
-                    {showFilters ? 'Hide Filters' : 'Filters'}
+                    {showFilters ? t('Hide Filters') : t('Filters')}
                     {hasActiveFilters() && (
                       <span className="ml-1 bg-primary-foreground text-primary rounded-full w-5 h-5 flex items-center justify-center text-xs">
                         {activeFilterCount()}

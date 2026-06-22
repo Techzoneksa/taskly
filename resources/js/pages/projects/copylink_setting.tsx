@@ -523,7 +523,7 @@ function ProjectLinkContent({ project, encryptedId }: { project: any; encryptedI
                                                                 ['Completed','Done'].includes(task.task_stage?.name) ? 'bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20' :
                                                                 ['In Progress','Working'].includes(task.task_stage?.name) ? 'bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-600/20' :
                                                                 'bg-gray-50 text-gray-700 ring-1 ring-inset ring-gray-600/20'
-                                                            }`}>{task.task_stage?.name || 'To Do'}</span>
+                                                            }`}>{task.task_stage?.name ? t(task.task_stage.name) : t('To Do')}</span>
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center justify-between">
@@ -608,7 +608,7 @@ function ProjectLinkContent({ project, encryptedId }: { project: any; encryptedI
                                                                 bug.bug_status?.name === 'In Progress' ? 'bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-600/20' :
                                                                 bug.bug_status?.name === 'Resolved' ? 'bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20' :
                                                                 'bg-gray-50 text-gray-700 ring-1 ring-inset ring-gray-600/20'
-                                                            }`}>{bug.bug_status?.name || 'New'}</span>
+                                                            }`}>{bug.bug_status?.name ? t(bug.bug_status.name) : t('New')}</span>
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">

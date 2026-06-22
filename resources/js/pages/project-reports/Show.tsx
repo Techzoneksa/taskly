@@ -896,7 +896,7 @@ export default function Show({ project, stats, userStats, users, stages, workspa
                                                 boxShadow: `inset 0 0 0 1px ${task.task_stage?.color}33`,
                                             }}
                                         >
-                                            {formatText(task.status || task.stage || 'To Do')}
+                                            {formatText(task.status || task.stage ? t(task.status || task.stage) : t('To Do'))}
                                         </span>
                                     </td>
                                 </tr>
