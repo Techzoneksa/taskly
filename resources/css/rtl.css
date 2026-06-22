@@ -16,6 +16,42 @@ html {
   transition: direction 0.2s ease;
 }
 
+/* IBM Plex Sans Arabic Font for RTL */
+html[dir="rtl"] body,
+html.rtl body,
+.rtl body {
+  font-family: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important;
+}
+
+/* Apply Arabic font to all RTL elements */
+html[dir="rtl"] *,
+html.rtl *,
+.rtl * {
+  font-family: inherit;
+}
+
+/* Ensure headings also use Arabic font in RTL */
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4,
+html[dir="rtl"] h5,
+html[dir="rtl"] h6,
+html.rtl h1,
+html.rtl h2,
+html.rtl h3,
+html.rtl h4,
+html.rtl h5,
+html.rtl h6,
+.rtl h1,
+.rtl h2,
+.rtl h3,
+.rtl h4,
+.rtl h5,
+.rtl h6 {
+  font-family: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif !important;
+}
+
 /* Sidebar Layout for RTL */
 html[dir="rtl"] .group[data-sidebar="wrapper"] {
   flex-direction: row-reverse;
