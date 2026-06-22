@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -21,6 +22,7 @@ interface DashboardData {
 }
 
 export default function TimesheetDashboardWidget() {
+    const { t } = useTranslation();
     const [data, setData] = useState<DashboardData | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -64,11 +66,11 @@ export default function TimesheetDashboardWidget() {
                 <div className="flex justify-between items-center">
                     <CardTitle className="flex items-center gap-2">
                         <Clock className="h-5 w-5" />
-                        Time Tracking
+                        {t('Time Tracking')}
                     </CardTitle>
                     <Link href={route('timesheets.index')}>
                         <Button variant="ghost" size="sm">
-                            View All <ArrowRight className="h-4 w-4 ml-1" />
+                            {t('View All')} <ArrowRight className="h-4 w-4 ml-1" />
                         </Button>
                     </Link>
                 </div>
@@ -79,11 +81,11 @@ export default function TimesheetDashboardWidget() {
                 <div className="grid grid-cols-2 gap-4">
                     <div className="bg-blue-50 p-3 rounded-lg">
                         <div className="text-2xl font-bold text-blue-900">{(data.today_hours || 0).toFixed(1)}h</div>
-                        <div className="text-sm text-blue-600">Today</div>
+                        <div className="text-sm text-blue-600">{t('Today')}</div>
                     </div>
                     <div className="bg-green-50 p-3 rounded-lg">
                         <div className="text-2xl font-bold text-green-900">{(data.week_hours || 0).toFixed(1)}h</div>
-                        <div className="text-sm text-green-600">This Week</div>
+                        <div className="text-sm text-green-600">{t('This Week')}</div>
                     </div>
                 </div>
 
@@ -106,22 +108,22 @@ export default function TimesheetDashboardWidget() {
                     <div className="bg-orange-50 border border-orange-200 p-3 rounded-lg">
                         <div className="flex items-center gap-2">
                             <Clock className="h-4 w-4 text-orange-600" />
-                            <span className="text-sm text-orange-800">Timer is running</span>
-                            <Badge variant="secondary">Active</Badge>
+                            <span className="text-sm text-orange-800">{t('Timer is running')}</span>
+                            <Badge variant="secondary">{t('Active')}</Badge>
                         </div>
                     </div>
                 )}
 
                 {/* Recent Entries */}
                 <div>
-                    <h4 className="text-sm font-medium mb-2">Recent Entries</h4>
+                    <h4 className="text-sm font-medium mb-2">{t('Recent Entries')}</h4>
                     <div className="space-y-2">
                         {(data.recent_entries || []).slice(0, 3).map((entry, index) => (
                             <div key={index} className="flex justify-between items-center text-sm">
                                 <div className="flex items-center gap-2">
                                     <span className="truncate">{entry.project}</span>
                                     <Badge variant={entry.is_billable ? 'default' : 'secondary'} className="text-xs">
-                                        {entry.is_billable ? 'B' : 'NB'}
+                                        {entry.is_billable ? t('B') : t('NB')}
                                     </Badge>
                                 </div>
                                 <div className="flex items-center gap-2 text-muted-foreground">
@@ -130,10 +132,10 @@ export default function TimesheetDashboardWidget() {
                                 </div>
                             </div>
                         ))}
-                        
+
                         {(data.recent_entries || []).length === 0 && (
                             <div className="text-sm text-muted-foreground text-center py-2">
-                                No recent entries
+                                {t('No recent entries')}
                             </div>
                         )}
                     </div>
@@ -146,12 +148,12 @@ export default function TimesheetDashboardWidget() {
                             <div className="flex items-center gap-2">
                                 <Calendar className="h-4 w-4 text-yellow-600" />
                                 <span className="text-sm text-yellow-800">
-                                    {data.pending_approvals || 0} pending approval{(data.pending_approvals || 0) > 1 ? 's' : ''}
+                                    {data.pending_approvals || 0} {t('pending approval')}{(data.pending_approvals || 0) > 1 ? t('s') : ''}
                                 </span>
                             </div>
                             <Link href={route('timesheet-approvals.index')}>
                                 <Button variant="ghost" size="sm">
-                                    Review
+                                    {t('Review')}
                                 </Button>
                             </Link>
                         </div>
@@ -162,12 +164,12 @@ export default function TimesheetDashboardWidget() {
                 <div className="flex gap-2">
                     <Link href={route('timesheets.daily-view')} className="flex-1">
                         <Button variant="outline" size="sm" className="w-full">
-                            Daily View
+                            {t('Daily View')}
                         </Button>
                     </Link>
                     <Link href={route('timesheet-reports.index')} className="flex-1">
                         <Button variant="outline" size="sm" className="w-full">
-                            Reports
+                            {t('Reports')}
                         </Button>
                     </Link>
                 </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -9,6 +10,7 @@ interface SimplePaginationProps {
 }
 
 export function SimplePagination({ currentPage, totalPages, onPageChange }: SimplePaginationProps) {
+    const { t } = useTranslation();
     if (totalPages <= 1) return null;
 
     return (
@@ -20,20 +22,20 @@ export function SimplePagination({ currentPage, totalPages, onPageChange }: Simp
                 disabled={currentPage <= 1}
             >
                 <ChevronLeft className="h-4 w-4" />
-                Previous
+                {t('Previous')}
             </Button>
-            
+
             <span className="text-sm text-gray-600">
-                Page {currentPage} of {totalPages}
+                {t('Page')} {currentPage} {t('of')} {totalPages}
             </span>
-            
+
             <Button
                 variant="outline"
                 size="sm"
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={currentPage >= totalPages}
             >
-                Next
+                {t('Next')}
                 <ChevronRight className="h-4 w-4" />
             </Button>
         </div>

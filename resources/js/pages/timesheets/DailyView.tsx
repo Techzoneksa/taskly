@@ -166,8 +166,8 @@ export default function DailyView({ entries, projects, selectedDate, timesheetId
                             <div className="text-center">
                                 <CardTitle className="text-lg">
                                     {formatDate(currentDate)}
-                                    {isToday && <span className="ml-2 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20">Today</span>}
-                                    {isWeekend && <span className="ml-2 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20">Weekend</span>}
+                                    {isToday && <span className="ml-2 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20">{t('Today')}</span>}
+                                    {isWeekend && <span className="ml-2 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20">{t('Weekend')}</span>}
                                 </CardTitle>
                             </div>
                             
@@ -189,7 +189,7 @@ export default function DailyView({ entries, projects, selectedDate, timesheetId
                             />
                             {!isToday && (
                                 <Button variant="outline" onClick={goToToday}>
-                                    Today
+                                    {t('Today')}
                                 </Button>
                             )}
                         </div>
@@ -203,7 +203,7 @@ export default function DailyView({ entries, projects, selectedDate, timesheetId
                     <CardContent className="p-4">
                         <div className="flex items-center gap-2">
                             <Clock className="h-5 w-5 text-blue-600" />
-                            <span className="text-sm font-medium text-blue-600">Total Hours</span>
+                            <span className="text-sm font-medium text-blue-600">{t('Total Hours')}</span>
                         </div>
                         <div className="text-lg font-bold text-blue-900">
                             {(getDayTotal() || 0).toFixed(2)}h
@@ -215,7 +215,7 @@ export default function DailyView({ entries, projects, selectedDate, timesheetId
                     <CardContent className="p-4">
                         <div className="flex items-center gap-2">
                             <Calendar className="h-5 w-5 text-green-600" />
-                            <span className="text-sm font-medium text-green-600">Billable Hours</span>
+                            <span className="text-sm font-medium text-green-600">{t('Billable Hours')}</span>
                         </div>
                         <div className="text-lg font-bold text-green-900">
                             {(getBillableTotal() || 0).toFixed(2)}h
