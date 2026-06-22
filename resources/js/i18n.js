@@ -63,9 +63,11 @@ const customBackend = {
         //   detail: { language: data.locale, direction, isRtl }
         // }));
 
-        // Set document direction - always keep LTR for sidebar compatibility
-        document.documentElement.dir = 'ltr';
-        document.documentElement.setAttribute('dir', 'ltr');
+        // Set document direction based on language
+        const isRtlLang = ['ar', 'he'].includes(language);
+        document.documentElement.dir = isRtlLang ? 'rtl' : 'ltr';
+        document.documentElement.setAttribute('dir', isRtlLang ? 'rtl' : 'ltr');
+        document.documentElement.lang = language;
         
         callback(null, translations);
       })

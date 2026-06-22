@@ -18,6 +18,7 @@ html {
 
 /* IBM Plex Sans Arabic Font for RTL */
 html[dir="rtl"] body,
+html[lang="ar"] body,
 html.rtl body,
 .rtl body {
   font-family: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important;
@@ -25,6 +26,7 @@ html.rtl body,
 
 /* Apply Arabic font to all RTL elements */
 html[dir="rtl"] *,
+html[lang="ar"] *,
 html.rtl *,
 .rtl * {
   font-family: inherit;
@@ -37,6 +39,12 @@ html[dir="rtl"] h3,
 html[dir="rtl"] h4,
 html[dir="rtl"] h5,
 html[dir="rtl"] h6,
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] h5,
+html[lang="ar"] h6,
 html.rtl h1,
 html.rtl h2,
 html.rtl h3,
