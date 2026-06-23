@@ -13,7 +13,7 @@ class ChatGptController extends Controller
     {
         $request->validate([
             'prompt' => 'required|string|max:1000',
-            'language' => 'string|in:en,es,ar,da,de,fr,he,it,ja,nl,pl,pt,pt-BR,ru,tr,zh',
+            'language' => 'string|in:en,ar',
             'creativity' => 'string|in:low,medium,high',
             'num_results' => 'integer|min:1|max:5',
             'max_length' => 'integer|min:1|max:500'
@@ -43,21 +43,7 @@ class ChatGptController extends Controller
 
             $language = $request->input('language', 'en');
             $langText = $language !== 'en' ? "Provide response in " . match($language) {
-                'es' => 'Spanish',
                 'ar' => 'Arabic',
-                'da' => 'Danish',
-                'de' => 'German',
-                'fr' => 'French',
-                'he' => 'Hebrew',
-                'it' => 'Italian',
-                'ja' => 'Japanese',
-                'nl' => 'Dutch',
-                'pl' => 'Polish',
-                'pt' => 'Portuguese',
-                'pt-BR' => 'Brazilian Portuguese',
-                'ru' => 'Russian',
-                'tr' => 'Turkish',
-                'zh' => 'Chinese',
                 default => 'English'
             } . " language.\n\n " : "";
 

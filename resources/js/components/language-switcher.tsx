@@ -52,7 +52,7 @@ export const LanguageSwitcher: React.FC = () => {
     const canManageLanguages = (isSaasMode && isSuperAdmin) || (!isSaasMode && isWorkspaceOwner);
 
     // RTL languages list
-    const rtlLanguages = ['ar', 'he'];
+    const rtlLanguages = ['ar'];
 
     const handleLanguageChange = async (languageCode: string) => {
         const lang = availableLanguages.find((l: Language) => l.code === languageCode);

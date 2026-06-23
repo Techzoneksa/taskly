@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\File;
 
 class LanguageController extends Controller
 {
-    const ALLOWED_LANGUAGES = ['en', 'es', 'fr', 'de', 'it', 'pt', 'ru', 'ja', 'zh', 'ar', 'hi', 'ko', 'th', 'vi', 'tr', 'pl', 'nl', 'da', 'sv', 'no', 'fi', 'cs', 'sk', 'hu', 'ro', 'bg', 'hr', 'sl', 'et', 'lv', 'lt', 'mt', 'ga', 'cy', 'eu', 'ca', 'gl', 'pt-BR', 'zh-CN', 'zh-TW', 'he'];
+    const ALLOWED_LANGUAGES = ['en', 'ar'];
     // Show the manage language Inertia page
     public function managePage(Request $request, $lang = null)
     {
@@ -234,7 +234,7 @@ class LanguageController extends Controller
         $languageCode = $request->input('language');
 
         // RTL languages that should automatically set layoutDirection to 'right'
-        $rtlLanguages = ['ar', 'he'];
+        $rtlLanguages = ['ar'];
         $isRtl = in_array($languageCode, $rtlLanguages);
 
         if (config('app.is_demo')) {

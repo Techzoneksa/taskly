@@ -22,7 +22,7 @@ class TranslationController extends BaseController
         }
 
         // Determine if this is an RTL language
-        $isRtlLanguage = in_array($locale, ['ar', 'he']);
+        $isRtlLanguage = in_array($locale, ['ar']);
         
         // Get current layout direction from settings
         $currentLayoutDirection = 'left'; // default

@@ -44,9 +44,6 @@ return [
     
     'supported_languages' => [
         'en' => 'English',
-        'es' => 'Spanish',
-        'fr' => 'French',
-        'de' => 'German',
-        'it' => 'Italian',
+        'ar' => 'Arabic',
     ],
 ];

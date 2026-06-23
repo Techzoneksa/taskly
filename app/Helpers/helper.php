@@ -1148,7 +1148,7 @@ if (! function_exists('defaultSettings')) {
 
             // Currency Settings
             'decimalFormat' => '2',
-            'defaultCurrency' => 'USD',
+            'defaultCurrency' => 'SAR',
             'decimalSeparator' => '.',
             'thousandsSeparator' => ',',
             'floatNumber' => true,
@@ -1324,7 +1324,7 @@ if (! function_exists('copySettingsFromSuperAdmin')) {
             User::where('id', $companyUserId)->update(['lang' => $defaultLanguage->value]);
 
             // If assigned language is RTL (ar, he), keep layoutDirection as right, otherwise force left
-            $rtlLanguages = ['ar', 'he'];
+            $rtlLanguages = ['ar'];
             if (in_array($defaultLanguage->value, $rtlLanguages)) {
                 Setting::where('user_id', $companyUserId)
                     ->where('workspace_id', $workspaceId)

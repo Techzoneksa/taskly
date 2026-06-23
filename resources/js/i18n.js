@@ -64,7 +64,7 @@ const customBackend = {
         // }));
 
         // Set document direction based on language
-        const isRtlLang = ['ar', 'he'].includes(language);
+        const isRtlLang = ['ar'].includes(language);
         document.documentElement.dir = isRtlLang ? 'rtl' : 'ltr';
         document.documentElement.setAttribute('dir', isRtlLang ? 'rtl' : 'ltr');
         document.documentElement.lang = language;

@@ -182,7 +182,7 @@ class HandleInertiaRequests extends Middleware
                 $currentLang = $request->cookie('app_language', $globalSettings['defaultLanguage'] ?? 'en');
                 $layoutDirection = $request->cookie('layoutDirection');
 
-                if ($layoutDirection === 'right' || in_array($currentLang, ['ar', 'he'])) {
+                if ($layoutDirection === 'right' || in_array($currentLang, ['ar'])) {
                     $globalSettings['layoutDirection'] = 'right';
                 } else {
                     $globalSettings['layoutDirection'] = 'left';
@@ -532,7 +532,7 @@ class HandleInertiaRequests extends Middleware
         if ($languageCookie) {
             $cookieOverrides['defaultLanguage'] = $languageCookie;
             // Auto-set layout direction based on language
-            $cookieOverrides['layoutDirection'] = in_array($languageCookie, ['ar', 'he']) ? 'right' : 'left';
+            $cookieOverrides['layoutDirection'] = in_array($languageCookie, ['ar']) ? 'right' : 'left';
         }
 
         // Brand settings cookie (complete brand settings)
