@@ -68,9 +68,10 @@ export const LayoutProvider = ({ children }: { children: ReactNode }) => {
 
         // Check if the document is in RTL mode
         const checkRtl = () => {
-            // Don't automatically set RTL based on document direction
-            // Let the user's manual layout direction setting take precedence
-            setIsRtl(false);
+            const dirAttr = document.documentElement.dir;
+            const lang = document.documentElement.lang;
+            const isRtlLang = ['ar', 'he'].includes(lang);
+            setIsRtl(dirAttr === 'rtl' || isRtlLang);
         };
 
         // Initial check
@@ -173,10 +174,7 @@ export const LayoutProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
-    // Calculate effective position based on RTL mode
-    // const effectivePosition: LayoutPosition = position;
-
-    const effectivePosition: LayoutPosition = position === 'right' ? 'right' : 'left';
+    const effectivePosition: LayoutPosition = position;
     return <LayoutContext.Provider value={{ position, effectivePosition, updatePosition, saveLayoutPosition, isRtl }}>{children}</LayoutContext.Provider>;
 };
 

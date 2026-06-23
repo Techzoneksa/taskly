@@ -51,27 +51,30 @@ createInertiaApp({
             // Ignore errors
         }
 
-        // Sync language from database when not in demo mode
-        const syncLanguage = (pageProps: any) => {
-            // Don't sync language in demo mode - let cookies/localStorage handle it
-            if (isDemoMode()) {
-                return;
-            }
-            
-            const userLanguage = pageProps?.props?.userLanguage;
-            const layoutDirection = pageProps?.props?.globalSettings?.layoutDirection;
-            
-            if (userLanguage) {
-                // Always keep dir=ltr for proper sidebar functionality
-                // RTL content will be handled by CSS and layoutDirection setting
-                document.documentElement.dir = 'ltr';
-                document.documentElement.setAttribute('dir', 'ltr');
+// Sync language from database when not in demo mode
+const syncLanguage = (pageProps: any) => {
+    // Don't sync language in demo mode - let cookies/localStorage handle it
+    if (isDemoMode()) {
+        return;
+    }
+    
+    const userLanguage = pageProps?.props?.userLanguage;
+    const layoutDirection = pageProps?.props?.globalSettings?.layoutDirection;
+    
+        if (userLanguage) {
+            // Set dir based on language: rtl for Arabic/Hebrew, ltr for others
+            const isRtlLang = ['ar', 'he'].includes(userLanguage);
+            const dir = isRtlLang ? 'rtl' : 'ltr';
+            document.documentElement.dir = dir;
+            document.documentElement.setAttribute('dir', dir);
+            document.documentElement.lang = userLanguage;
+            document.body.dir = dir;
 
-                if (i18n.language !== userLanguage) {
-                    i18n.changeLanguage(userLanguage);
-                }
+            if (i18n.language !== userLanguage) {
+                i18n.changeLanguage(userLanguage);
             }
-        };
+        }
+};
 
         // Initial language sync
         syncLanguage(props.initialPage);
@@ -85,10 +88,15 @@ createInertiaApp({
             initializeGlobalSettings(globalSettings);
         }
         
-        // Listen for language changes
-        i18n.on('languageChanged', (lng) => {
-            // Language changes are handled by LayoutContext
-        });
+// Listen for language changes
+i18n.on('languageChanged', (lng) => {
+    const isRtlLang = ['ar', 'he'].includes(lng);
+    const dir = isRtlLang ? 'rtl' : 'ltr';
+    document.documentElement.dir = dir;
+    document.documentElement.setAttribute('dir', dir);
+    document.documentElement.lang = lng;
+    document.body.dir = dir;
+});
 
         // Create a memoized render function to prevent unnecessary re-renders
         const renderApp = (appProps: any) => {
