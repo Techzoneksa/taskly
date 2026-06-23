@@ -77,10 +77,9 @@ export const LayoutProvider = ({ children }: { children: ReactNode }) => {
         // Initial check
         checkRtl();
 
-        // Set up a mutation observer to detect changes to the dir attribute
         const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
-                if (mutation.attributeName === 'dir') {
+                if (mutation.attributeName === 'dir' || mutation.attributeName === 'lang') {
                     checkRtl();
                 }
             });

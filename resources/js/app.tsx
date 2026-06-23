@@ -62,13 +62,15 @@ const syncLanguage = (pageProps: any) => {
     const layoutDirection = pageProps?.props?.globalSettings?.layoutDirection;
     
         if (userLanguage) {
-            // Set dir based on language: rtl for Arabic/Hebrew, ltr for others
             const isRtlLang = ['ar', 'he'].includes(userLanguage);
             const dir = isRtlLang ? 'rtl' : 'ltr';
             document.documentElement.dir = dir;
-            document.documentElement.setAttribute('dir', dir);
             document.documentElement.lang = userLanguage;
             document.body.dir = dir;
+            document.documentElement.classList.remove('rtl', 'ltr');
+            document.documentElement.classList.add(dir);
+            const appEl = document.getElementById('app');
+            if (appEl) { appEl.setAttribute('dir', dir); }
 
             if (i18n.language !== userLanguage) {
                 i18n.changeLanguage(userLanguage);
@@ -88,14 +90,16 @@ const syncLanguage = (pageProps: any) => {
             initializeGlobalSettings(globalSettings);
         }
         
-// Listen for language changes
 i18n.on('languageChanged', (lng) => {
     const isRtlLang = ['ar', 'he'].includes(lng);
     const dir = isRtlLang ? 'rtl' : 'ltr';
     document.documentElement.dir = dir;
-    document.documentElement.setAttribute('dir', dir);
     document.documentElement.lang = lng;
     document.body.dir = dir;
+    document.documentElement.classList.remove('rtl', 'ltr');
+    document.documentElement.classList.add(dir);
+    const appEl = document.getElementById('app');
+    if (appEl) { appEl.setAttribute('dir', dir); }
 });
 
         // Create a memoized render function to prevent unnecessary re-renders
