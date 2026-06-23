@@ -729,7 +729,31 @@ export default function TasksIndex({ tasks, projects, stages, members, filters, 
                         `}</style>
                         <div className="flex gap-4 overflow-x-auto pb-4 kanban-scroll" style={{ height: '100%' }}>
                             {stages.map((stage) => {
-                                const stageTasks = (Array.isArray(tasks) ? tasks : tasks?.data || []).filter(task => task.task_stage?.id === stage.id);
+                                // Check if it's the new structured format (stages with nested tasks from server-side pagination)
+                                // New format: array of { id, name, tasks: [], tasks_count, hasMore, ... }
+                                // Old format: flat array of tasks with task.task_stage.id
+                                let stageTasks = [];
+                                let totalCount = 0;
+                                let hasMore = false;
+
+                                if (Array.isArray(tasks) && tasks.length > 0) {
+                                    // Check if this is the new structured format by looking at first element
+                                    const firstItem = tasks[0];
+                                    if (firstItem && firstItem.tasks !== undefined && Array.isArray(firstItem.tasks)) {
+                                        // New structured format - find stage by id
+                                        const stageData = tasks.find(s => s.id === stage.id);
+                                        if (stageData) {
+                                            stageTasks = stageData.tasks;
+                                            totalCount = stageData.tasks_count || stageData.total || 0;
+                                            hasMore = stageData.hasMore || false;
+                                        }
+                                    } else {
+                                        // Old format - filter client-side (not recommended for large datasets)
+                                        stageTasks = tasks.filter(task => task.task_stage?.id === stage.id);
+                                        totalCount = stageTasks.length;
+                                    }
+                                }
+
                                 return (
                                     <div
                                         key={stage.id}

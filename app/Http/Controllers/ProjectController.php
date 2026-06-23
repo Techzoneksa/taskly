@@ -290,10 +290,11 @@ class ProjectController extends Controller
 
         $project->setRelation('activities', $activities);
 
-        // Load project tasks with related data
+        // Load project tasks with related data (limited to 50 for performance)
         $projectTasks = \App\Models\Task::with(['taskStage', 'assignedTo', 'creator'])
             ->where('project_id', $project->id)
             ->latest()
+            ->take(50)
             ->get();
 
         $projectTasks->each(function ($task) {
@@ -305,10 +306,11 @@ class ProjectController extends Controller
                 }
             }
         });
-        // Load project bugs with related data
+        // Load project bugs with related data (limited to 50 for performance)
         $projectBugs = \App\Models\Bug::with(['bugStatus', 'assignedTo', 'reportedBy'])
             ->where('project_id', $project->id)
             ->latest()
+            ->take(50)
             ->get();
         
         $projectBugs->each(function ($bug) {
@@ -321,7 +323,7 @@ class ProjectController extends Controller
             }
         });
 
-        // Load project timesheets with related data
+        // Load project timesheets with related data (limited to 20 for performance)
         $projectTimesheets = \App\Models\Timesheet::with([
             'user',
             'entries' => function ($query) use ($project) {
@@ -334,6 +336,7 @@ class ProjectController extends Controller
                 $query->where('project_id', $project->id);
             })
             ->latest()
+            ->take(20)
             ->get()
             ->map(function ($timesheet) {
                 $timesheet->total_hours = $timesheet->entries->sum('hours');

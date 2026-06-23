@@ -98,30 +98,108 @@ class TaskController extends Controller
             $query->latest(); // Default sorting
         }
 
-        // Default to kanban view and get all data without pagination
+        // Default to kanban view
         $view = $request->get('view', 'kanban');
+        $kanbanLimit = 50; // Max tasks per stage in kanban view
 
         if ($view === 'kanban') {
-            $tasks = $query->get();
+            // For Kanban, get tasks grouped by stage with limit per stage
+            // This is more efficient than loading all tasks
+            $stageLimit = $request->get('stage_limit', $kanbanLimit);
+
+            // Get stage IDs
+            $stageIds = TaskStage::forWorkspace($user->current_workspace_id)->ordered()->pluck('id');
+
+            // Build tasks per stage with limits
+            $tasksByStage = [];
+            $totalTasksCount = 0;
+
+            foreach ($stageIds as $stageId) {
+                $stageQuery = clone $query;
+                $stageQuery->where('task_stage_id', $stageId);
+
+                // Get total count for this stage (for "load more" UI)
+                $totalInStage = (clone $stageQuery)->count();
+                $totalTasksCount += $totalInStage;
+
+                // Get limited tasks for this stage
+                $limitedTasks = (clone $stageQuery)
+                    ->with(['project', 'taskStage', 'assignedTo', 'creator', 'milestone'])
+                    ->limit($stageLimit)
+                    ->get();
+
+                $tasksByStage[$stageId] = [
+                    'tasks' => $limitedTasks,
+                    'total' => $totalInStage,
+                    'hasMore' => $totalInStage > $stageLimit
+                ];
+            }
+
+            // Get stages with task counts for UI
+            $stagesWithCounts = TaskStage::forWorkspace($user->current_workspace_id)
+                ->ordered()
+                ->withCount(['tasks' => function ($q) use ($query) {
+                    // Apply same query constraints
+                    $q->whereHas('project', function ($pq) use ($query) {
+                        // Clone the base constraints
+                        $baseQuery = clone $query;
+                        $baseQuery->getQuery()->wheres = [];
+                        $pq->whereRaw('1=1');
+                    });
+                }])
+                ->get()
+                ->map(function ($stage) use ($tasksByStage) {
+                    return [
+                        'id' => $stage->id,
+                        'name' => $stage->name,
+                        'color' => $stage->color,
+                        'order' => $stage->order,
+                        'tasks_count' => $tasksByStage[$stage->id]['total'] ?? 0,
+                        'tasks' => $tasksByStage[$stage->id]['tasks'] ?? [],
+                        'hasMore' => $tasksByStage[$stage->id]['hasMore'] ?? false
+                    ];
+                });
+
+            // Convert to collection for easier handling in React
+            $tasks = collect($stagesWithCounts);
         } else {
             $perPage = $request->get('per_page', 10);
             $perPage = in_array($perPage, [10 , 25, 50, 100]) ? $perPage : 10;
             $tasks = $query->paginate($perPage);
         }
 
-        // Process avatars for tasks
-        $taskCollection = ($tasks instanceof \Illuminate\Pagination\LengthAwarePaginator) ? $tasks->getCollection() : $tasks;
-        $taskCollection->each(function ($task) {
-            foreach (['assignedTo', 'creator'] as $relation) {
-                if ($task->$relation) {
-                    $task->$relation->avatar = check_file($task->$relation->avatar)
-                        ? get_file($task->$relation->avatar)
-                        : get_file('avatars/avatar.png');
+        // Process avatars for tasks - handle both Kanban (stages with nested tasks) and list views
+        if ($view === 'kanban') {
+            // Kanban: $tasks is a collection of stages with nested tasks arrays
+            $tasks->each(function ($stage) {
+                if (isset($stage['tasks']) && is_array($stage['tasks'])) {
+                    foreach ($stage['tasks'] as $task) {
+                        foreach (['assignedTo', 'creator'] as $relation) {
+                            if (isset($task->$relation) && $task->$relation) {
+                                $task->$relation->avatar = check_file($task->$relation->avatar)
+                                    ? get_file($task->$relation->avatar)
+                                    : get_file('avatars/avatar.png');
+                            }
+                        }
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            // List/Grid view: $tasks is paginated or collection of tasks
+            $taskCollection = ($tasks instanceof \Illuminate\Pagination\LengthAwarePaginator) ? $tasks->getCollection() : $tasks;
+            $taskCollection->each(function ($task) {
+                foreach (['assignedTo', 'creator'] as $relation) {
+                    if ($task->$relation) {
+                        $task->$relation->avatar = check_file($task->$relation->avatar)
+                            ? get_file($task->$relation->avatar)
+                            : get_file('avatars/avatar.png');
+                    }
+                }
+            });
+        }
 
         // Apply same access control to projects dropdown as used for task filtering
+        // Paginate projects to avoid loading all at once
         $projectsQuery = Project::forWorkspace($user->current_workspace_id)
             ->with(['milestones', 'members.user']);
 
@@ -138,11 +216,20 @@ class TaskController extends Controller
             });
         }
 
-        $projects = $projectsQuery->get();
+        // Paginate projects dropdown - limit to 50 for performance
+        $projectsPerPage = $request->get('projects_per_page', 50);
+        $projects = $projectsQuery->paginate($projectsPerPage);
+
+        // For stages in non-kanban view or if we need fresh stages data
         $stages = TaskStage::forWorkspace($user->current_workspace_id)->ordered()->get();
-        $members = User::whereHas('workspaces', function ($q) use ($workspace) {
+
+        // Members - use paginated query for large workspaces
+        $membersQuery = User::whereHas('workspaces', function ($q) use ($workspace) {
             $q->where('workspace_id', $workspace->id)->where('status', 'active');
-        })->get();
+        });
+
+        // Select only needed columns to reduce memory usage
+        $members = $membersQuery->select('id', 'name', 'email', 'avatar', 'type')->limit(100)->get();
 
         // Get Google Calendar sync settings from company owner
         $companyOwner = $workspace->owner; // Get the company owner

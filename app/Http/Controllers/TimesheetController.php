@@ -741,36 +741,38 @@ class TimesheetController extends Controller
         $isDemoMode = config('app.is_demo', false);
         $role = $workspace->getMemberRole($user);
         
+        $entriesQuery = TimesheetEntry::with(['project', 'task'])
+            ->whereHas('timesheet', function($q) use ($workspace) {
+                $q->where('workspace_id', $workspace->id);
+            });
+        
+        if (!($workspace->isOwner($user) || $role === 'admin')) {
+            $entriesQuery->whereHas('project', function($projectQuery) use ($user) {
+                $projectQuery->where(function($pq) use ($user) {
+                    $pq->whereHas('members', function($memberQuery) use ($user) {
+                        $memberQuery->where('user_id', $user->id);
+                    })->orWhereHas('clients', function($clientQuery) use ($user) {
+                        $clientQuery->where('user_id', $user->id);
+                    })->orWhere('created_by', $user->id);
+                });
+            });
+        }
+        
+        $entriesQuery->whereBetween('date', [$weekStart, $weekEnd]);
+        $allEntries = $entriesQuery->get();
+        
         $weekData = [];
         for ($date = $weekStart->copy(); $date <= $weekEnd; $date->addDay()) {
-            $entriesQuery = TimesheetEntry::with(['project', 'task'])
-                ->whereHas('timesheet', function($q) use ($workspace) {
-                    $q->where('workspace_id', $workspace->id);
-                });
+            $dateStr = $date->toDateString();
+            $dayEntries = $allEntries->filter(fn($e) => $e->date instanceof \Carbon\Carbon
+                ? $e->date->toDateString() === $dateStr
+                : $e->date === $dateStr);
             
-            if (!($workspace->isOwner($user) || $role === 'admin')) {
-                $entriesQuery->whereHas('project', function($projectQuery) use ($user) {
-                    $projectQuery->where(function($pq) use ($user) {
-                        $pq->whereHas('members', function($memberQuery) use ($user) {
-                            $memberQuery->where('user_id', $user->id);
-                        })->orWhereHas('clients', function($clientQuery) use ($user) {
-                            $clientQuery->where('user_id', $user->id);
-                        })->orWhere('created_by', $user->id);
-                    });
-                });
-            }
-            
-            // if (!$isDemoMode) {
-                $entriesQuery->whereDate('date', $date);
-            // }
-            
-            $entries = $entriesQuery->get();
-                
             $weekData[] = [
-                'date' => $date->toDateString(),
-                'entries' => $entries,
-                'totalHours' => $entries->sum('hours'),
-                'billableHours' => $entries->where('is_billable', true)->sum('hours')
+                'date' => $dateStr,
+                'entries' => $dayEntries->values(),
+                'totalHours' => $dayEntries->sum('hours'),
+                'billableHours' => $dayEntries->where('is_billable', true)->sum('hours')
             ];
         }
 
@@ -905,39 +907,41 @@ class TimesheetController extends Controller
         $canAccessAllData = $workspace->isOwner($user) || $role === 'company';
         $isDemoMode = config('app.is_demo', false);
         
-        $calendarData = [];
-        for ($date = $monthStart->copy(); $date <= $monthEnd; $date->addDay()) {
-            $query = TimesheetEntry::with(['project', 'task', 'user'])
-                ->whereHas('timesheet', function($q) use ($workspace, $user, $canAccessAllData) {
-                    $q->where('workspace_id', $workspace->id);
-                    // If user cannot access all data, restrict to their own entries or tasks assigned to them
-                    if (!$canAccessAllData) {
-                        $q->where(function($tq) use ($user) {
-                            $tq->where('user_id', $user->id)
-                               ->orWhereHas('entries', function($entryQuery) use ($user) {
-                                   $entryQuery->whereHas('task', function($taskQuery) use ($user) {
-                                       $taskQuery->where(function($tQuery) use ($user) {
-                                           $tQuery->where('assigned_to', $user->id)
-                                                  ->orWhereHas('members', function($memberQuery) use ($user) {
-                                                      $memberQuery->where('user_id', $user->id);
-                                                  });
-                                       });
+        $query = TimesheetEntry::with(['project', 'task', 'user'])
+            ->whereHas('timesheet', function($q) use ($workspace, $user, $canAccessAllData) {
+                $q->where('workspace_id', $workspace->id);
+                // If user cannot access all data, restrict to their own entries or tasks assigned to them
+                if (!$canAccessAllData) {
+                    $q->where(function($tq) use ($user) {
+                        $tq->where('user_id', $user->id)
+                           ->orWhereHas('entries', function($entryQuery) use ($user) {
+                               $entryQuery->whereHas('task', function($taskQuery) use ($user) {
+                                   $taskQuery->where(function($tQuery) use ($user) {
+                                       $tQuery->where('assigned_to', $user->id)
+                                              ->orWhereHas('members', function($memberQuery) use ($user) {
+                                                  $memberQuery->where('user_id', $user->id);
+                                              });
                                    });
                                });
-                        });
-                    }
-                });
+                           });
+                    });
+                }
+            });
 
-            // if (!$isDemoMode) {
-                $query->whereDate('date', $date);
-            // }
-
-            $entries = $query->get();
-                
+        $query->whereBetween('date', [$monthStart, $monthEnd]);
+        $allEntries = $query->get();
+        
+        $calendarData = [];
+        for ($date = $monthStart->copy(); $date <= $monthEnd; $date->addDay()) {
+            $dateStr = $date->toDateString();
+            $dayEntries = $allEntries->filter(fn($e) => $e->date instanceof \Carbon\Carbon
+                ? $e->date->toDateString() === $dateStr
+                : $e->date === $dateStr);
+            
             $calendarData[] = [
-                'date' => $date->toDateString(),
-                'entries' => $entries,
-                'totalHours' => $entries->sum('hours'),
+                'date' => $dateStr,
+                'entries' => $dayEntries->values(),
+                'totalHours' => $dayEntries->sum('hours'),
                 'isCurrentMonth' => $date->month === $month->month,
                 'isToday' => $date->isToday()
             ];
@@ -1023,14 +1027,14 @@ class TimesheetController extends Controller
         
         $members = User::whereHas('workspaces', function($q) use ($workspace) {
             $q->where('workspace_id', $workspace->id)->where('status', 'active');
-        })->get();
+        })->select('id', 'name', 'avatar')->take(100)->get();
 
         $projects = Project::where(function($query) use ($user, $workspace) {
             $query->where('workspace_id', $workspace->id)
                   ->orWhereHas('members', function($q) use ($user) {
                       $q->where('user_id', $user->id);
                   });
-        })->get();
+        })->select('id', 'title', 'project_prefix')->take(100)->get();
 
         return Inertia::render('timesheets/Reports', [
             'members' => $members,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\PermissionService;
 use App\Traits\HasPermissionChecks;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -14,6 +15,11 @@ class DashboardController extends Controller
     public function __construct(private PermissionService $permissionService)
     {
     }
+    public static function clearCache($userId, $workspaceId, $role)
+    {
+        Cache::forget('dashboard_' . $userId . '_' . ($workspaceId ?? 0) . '_' . $role);
+    }
+
     public function index()
     {
         $user = auth()->user();
@@ -70,62 +76,65 @@ class DashboardController extends Controller
             $workspace = $this->getCurrentWorkspace($user);
             $role = $this->getUserWorkspaceRole($user, $workspace);
             
-            // Build cards based on workspace role and permissions
-            $cards = [];
+            $cacheKey = 'dashboard_' . $user->id . '_' . ($workspace->id ?? 0) . '_' . $role;
             
-            // Only show user count for company workspace role (owner)
-            if ($role === 'company' && $this->checkPermission('user_view_any')) {
-                $cards[] = [
-                    'title' => __('Total Users'),
-                    'value' => $this->getTotalUsers($user, $workspace, $role),
-                    'icon' => 'Users',
+            $dashboardData = Cache::remember($cacheKey, 300, function () use ($user, $workspace, $role) {
+                // Build cards based on workspace role and permissions
+                $cards = [];
+                
+                // Only show user count for company workspace role (owner)
+                if ($role === 'company' && $this->checkPermission('user_view_any')) {
+                    $cards[] = [
+                        'title' => __('Total Users'),
+                        'value' => $this->getTotalUsers($user, $workspace, $role),
+                        'icon' => 'Users',
+                    ];
+                }
+                
+                // Show projects if user has permission
+                if ($this->checkPermission('project_view_any')) {
+                    $cards[] = [
+                        'title' => __('Active Projects'),
+                        'value' => $this->getActiveProjects($workspace, $user, $role),
+                        'icon' => 'Activity',
+                    ];
+                }
+                
+                // Show tasks if user has permission
+                if ($this->checkPermission('task_view_any')) {
+                    $cards[] = [
+                        'title' => __('Tasks Completed'),
+                        'value' => $this->getCompletedTasks($workspace, $user, $role),
+                        'icon' => 'UserPlus',
+                    ];
+                }
+                
+                // Show revenue only for company workspace role with invoice permission
+                if ($role === 'company' && $this->checkPermission('invoice_view_any')) {
+                    $cards[] = [
+                        'title' => __('Total Received'),
+                        'value' => $this->getRevenue($user, $workspace, $role),
+                        'format' => 'currency',
+                        'icon' => 'DollarSign',
+                    ];
+                }
+                
+                return [
+                    'cards' => $cards,
+                    'projects' => $this->checkPermission('project_view_any') ? $this->getProjectStats($workspace, $user, $role) : null,
+                    'tasks' => $this->checkPermission('task_view_any') ? $this->getTaskStats($workspace, $user, $role) : null,
+                    'taskStages' => $this->checkPermission('task_view_any') ? $this->getTaskStages($workspace, $user, $role) : null,
+                    'timesheets' => $this->checkPermission('timesheet_view_any') ? $this->getTimesheetStats($workspace, $user, $role) : null,
+                    'budgets' => $this->checkPermission('budget_view_any') ? $this->getBudgetStats($workspace, $user, $role) : null,
+                    'expenses' => $this->checkPermission('expense_view_any') ? $this->getExpenseStats($workspace, $user, $role) : null,
+                    'invoices' => (($role === 'company' || $role === 'client') && $this->checkPermission('invoice_view_any')) ? $this->getInvoiceStats($workspace, $user, $role) : null,
+                    'bugs' => $this->checkPermission('bug_view_any') ? $this->getBugStats($workspace, $user, $role) : null,
+                    'recentActivities' => $this->getRecentActivities($workspace, $user, $role),
                 ];
-            }
-            
-            // Show projects if user has permission
-            if ($this->checkPermission('project_view_any')) {
-                $cards[] = [
-                    'title' => __('Active Projects'),
-                    'value' => $this->getActiveProjects($workspace, $user, $role),
-                    'icon' => 'Activity',
-                ];
-            }
-            
-            // Show tasks if user has permission
-            if ($this->checkPermission('task_view_any')) {
-                $cards[] = [
-                    'title' => __('Tasks Completed'),
-                    'value' => $this->getCompletedTasks($workspace, $user, $role),
-                    'icon' => 'UserPlus',
-                ];
-            }
-            
-            // Show revenue only for company workspace role with invoice permission
-            if ($role === 'company' && $this->checkPermission('invoice_view_any')) {
-                $cards[] = [
-                    'title' => __('Total Received'),
-                    'value' => $this->getRevenue($user, $workspace, $role),
-                    'format' => 'currency',
-                    'icon' => 'DollarSign',
-                ];
-            }
-            
-            $dashboardData = [
-                'cards' => $cards,
-                'projects' => $this->checkPermission('project_view_any') ? $this->getProjectStats($workspace, $user, $role) : null,
-                'tasks' => $this->checkPermission('task_view_any') ? $this->getTaskStats($workspace, $user, $role) : null,
-                'taskStages' => $this->checkPermission('task_view_any') ? $this->getTaskStages($workspace, $user, $role) : null,
-                'timesheets' => $this->checkPermission('timesheet_view_any') ? $this->getTimesheetStats($workspace, $user, $role) : null,
-                'budgets' => $this->checkPermission('budget_view_any') ? $this->getBudgetStats($workspace, $user, $role) : null,
-                'expenses' => $this->checkPermission('expense_view_any') ? $this->getExpenseStats($workspace, $user, $role) : null,
-                'invoices' => (($role === 'company' || $role === 'client') && $this->checkPermission('invoice_view_any')) ? $this->getInvoiceStats($workspace, $user, $role) : null,
-                'bugs' => $this->checkPermission('bug_view_any') ? $this->getBugStats($workspace, $user, $role) : null,
-                'recentActivities' => $this->getRecentActivities($workspace, $user, $role),
-                'currentWorkspace' => $workspace
-            ];
+            });
 
             return Inertia::render('dashboard', [
-                'dashboardData' => $dashboardData,
+                'dashboardData' => $dashboardData + ['currentWorkspace' => $workspace],
                 'userWorkspaceRole' => $role,
                 'permissions' => []
             ]);
