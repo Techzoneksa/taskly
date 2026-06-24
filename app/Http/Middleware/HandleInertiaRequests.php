@@ -110,10 +110,10 @@ class HandleInertiaRequests extends Middleware
             }
 
             // Get currency symbol with error handling
-            $currencyCode = $settings['defaultCurrency'] ?? 'USD';
+            $currencyCode = $settings['defaultCurrency'] ?? 'SAR';
             $currencySettings = [
-                'currencySymbol' => '$',
-                'currencyNname' => 'US Dollar'
+                'currencySymbol' => 'ر.س',
+                'currencyNname' => 'SAR'
             ];
 
             try {

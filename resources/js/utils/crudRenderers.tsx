@@ -42,7 +42,7 @@ export const columnRenderers = {
   },
   
   // Price renderer
-  price: (currency = 'USD', locale = 'en-US') => {
+  price: (currency = 'SAR', locale = 'en-US') => {
     return (value) => {
       if (value === null || value === undefined) return <span>-</span>;
       

@@ -45,7 +45,7 @@ class PaymentSettingController extends Controller
         }
         
         // Add default currency to payment settings
-        $paymentSettings['defaultCurrency'] = $settings['defaultCurrency'] ?? 'usd';
+        $paymentSettings['defaultCurrency'] = $settings['defaultCurrency'] ?? 'sar';
         
         return response()->json($paymentSettings);
     }

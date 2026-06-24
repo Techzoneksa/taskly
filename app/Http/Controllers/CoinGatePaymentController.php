@@ -64,8 +64,8 @@ class CoinGatePaymentController extends Controller
             $orderParams = [
                 'order_id' => $orderId,
                 'price_amount' => $price,
-                'price_currency' => $settings['general_settings']['defaultCurrency'] ?? 'USD',
-                'receive_currency' => $settings['general_settings']['defaultCurrency'] ?? 'USD',
+                'price_currency' => $settings['general_settings']['defaultCurrency'] ?? 'SAR',
+                'receive_currency' => $settings['general_settings']['defaultCurrency'] ?? 'SAR',
                 'callback_url' => route('coingate.callback'),
                 'cancel_url' => route('plans.index'),
                 'success_url' => route('coingate.callback'),
@@ -127,8 +127,8 @@ class CoinGatePaymentController extends Controller
             $orderParams = [
                 'order_id' => $orderId,
                 'price_amount' => $validated['amount'],
-                'price_currency' => 'USD',
-                'receive_currency' => 'USD',
+                'price_currency' => 'SAR',
+                'receive_currency' => 'SAR',
                 'callback_url' => route('coingate.callback'),
                 'cancel_url' => route('invoices.show', $invoice->id),
                 'success_url' => route('coingate.callback'),
@@ -270,8 +270,8 @@ class CoinGatePaymentController extends Controller
             $orderParams = [
                 'order_id' => $orderId,
                 'price_amount' => $validated['amount'],
-                'price_currency' => 'USD',
-                'receive_currency' => 'USD',
+                'price_currency' => 'SAR',
+                'receive_currency' => 'SAR',
                 'callback_url' => route('coingate.callback'),
                 'cancel_url' => route('invoices.payment', $validated['invoice_token']),
                 'success_url' => route('coingate.callback'),

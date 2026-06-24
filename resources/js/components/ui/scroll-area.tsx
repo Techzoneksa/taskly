@@ -11,7 +11,7 @@ const ScrollArea = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   const { i18n } = useTranslation()
   const { position } = useLayout()
-  const isRTL = ['ar', 'he'].includes(i18n.language) || position === 'right'
+  const isRTL = ['ar'].includes(i18n.language) || position === 'right'
   
   return (
     <ScrollAreaPrimitive.Root

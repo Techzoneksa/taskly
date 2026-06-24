@@ -41,7 +41,7 @@ class StripePaymentController extends Controller
 
             $paymentIntent = PaymentIntent::create([
                 'amount' => $pricing['final_price'] * 100,
-                'currency' => strtolower($settings['general_settings']['defaultCurrency'] ?? 'usd'),
+                'currency' => strtolower($settings['general_settings']['defaultCurrency'] ?? 'sar'),
                 'payment_method' => $validated['payment_method_id'],
                 'confirmation_method' => 'manual',
                 'confirm' => true,
@@ -111,7 +111,7 @@ class StripePaymentController extends Controller
 
             $paymentIntent = PaymentIntent::create([
                 'amount' => $request->amount * 100,
-                'currency' => 'usd',
+                'currency' => 'sar',
                 'payment_method' => $request->payment_method_id,
                 'confirmation_method' => 'manual',
                 'confirm' => true,
@@ -180,7 +180,7 @@ class StripePaymentController extends Controller
 
             $paymentIntent = PaymentIntent::create([
                 'amount' => $request->amount * 100,
-                'currency' => 'usd',
+                'currency' => 'sar',
                 'payment_method' => $request->payment_method_id,
                 'confirmation_method' => 'manual',
                 'confirm' => true,

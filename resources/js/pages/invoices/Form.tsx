@@ -43,7 +43,7 @@ export default function InvoiceForm({ invoice, projects, clients, currencies, ta
 
         selected_taxes: invoice?.selected_taxes || [],
 
-        currency: invoice?.currency || 'USD',
+        currency: invoice?.currency || 'SAR',
         notes: invoice?.notes || '',
         terms: invoice?.terms || '',
     });

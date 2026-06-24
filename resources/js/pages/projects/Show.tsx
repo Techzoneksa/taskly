@@ -507,9 +507,7 @@ export default function ProjectShow() {
                             label: 'Currency',
                             type: 'select',
                             options: [
-                                { value: 'USD', label: 'USD' },
-                                { value: 'EUR', label: 'EUR' },
-                                { value: 'GBP', label: 'GBP' }
+                                { value: 'SAR', label: 'SAR' }
                             ],
                             required: true
                         },

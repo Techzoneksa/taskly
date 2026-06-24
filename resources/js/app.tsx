@@ -62,7 +62,7 @@ const syncLanguage = (pageProps: any) => {
     const layoutDirection = pageProps?.props?.globalSettings?.layoutDirection;
     
         if (userLanguage) {
-            const isRtlLang = ['ar', 'he'].includes(userLanguage);
+            const isRtlLang = ['ar'].includes(userLanguage);
             const dir = isRtlLang ? 'rtl' : 'ltr';
             document.documentElement.dir = dir;
             document.documentElement.lang = userLanguage;
@@ -91,7 +91,7 @@ const syncLanguage = (pageProps: any) => {
         }
         
 i18n.on('languageChanged', (lng) => {
-    const isRtlLang = ['ar', 'he'].includes(lng);
+    const isRtlLang = ['ar'].includes(lng);
     const dir = isRtlLang ? 'rtl' : 'ltr';
     document.documentElement.dir = dir;
     document.documentElement.lang = lng;

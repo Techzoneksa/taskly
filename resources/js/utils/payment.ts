@@ -120,7 +120,7 @@ export interface PaymentFormData {
   billingCycle: 'monthly' | 'yearly';
 }
 
-export function formatPaymentAmount(amount: number, currency: string = 'USD'): string {
+export function formatPaymentAmount(amount: number, currency: string = 'SAR'): string {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: currency.toUpperCase(),

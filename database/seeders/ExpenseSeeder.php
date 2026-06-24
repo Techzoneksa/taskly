@@ -59,7 +59,7 @@ class ExpenseSeeder extends Seeder
                     'task_id' => $taskId,
                     'submitted_by' => $submitterId,
                     'amount' => $expense['amount'],
-                    'currency' => 'USD',
+                    'currency' => 'SAR',
                     'expense_date' => now()->subDays(rand(1, 90)),
                     'title' => $expense['title'],
                     'description' => $expense['description'],

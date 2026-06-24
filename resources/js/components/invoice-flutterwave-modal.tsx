@@ -41,7 +41,7 @@ export function FlutterwavePaymentModal({ isOpen, onClose, invoice, amount, flut
         public_key: flutterwavePublicKey,
         tx_ref: `inv_${invoice.id}_${Date.now()}`,
         amount: amount,
-        currency: 'USD',
+        currency: 'SAR',
         payment_options: 'card,mobilemoney,ussd',
         customer: {
           email: invoice.client?.email || 'customer@example.com',

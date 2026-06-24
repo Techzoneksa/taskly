@@ -42,8 +42,8 @@ class ActivitySeeder extends Seeder
             // Budget activities
             [
                 'action' => 'projectbudget_created',
-                'description' => "Budget 'Project Development Budget' was created with amount 50000 USD",
-                'metadata' => ['model_type' => 'App\\Models\\ProjectBudget', 'amount' => 50000, 'currency' => 'USD']
+                'description' => "Budget 'Project Development Budget' was created with amount 50000 SAR",
+                'metadata' => ['model_type' => 'App\\Models\\ProjectBudget', 'amount' => 50000, 'currency' => 'SAR']
             ],
             [
                 'action' => 'projectbudget_updated',

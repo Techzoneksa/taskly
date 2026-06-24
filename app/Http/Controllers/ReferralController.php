@@ -72,7 +72,7 @@ class ReferralController extends Controller
         // Get currency symbol
         $superAdmin = User::where('type', 'superadmin')->first();
         $superAdminSettings = settings($superAdmin->id);
-        $currency = $superAdminSettings ? ($superAdminSettings['defaultCurrency'] ?? 'USD') : 'USD';
+        $currency = $superAdminSettings ? ($superAdminSettings['defaultCurrency'] ?? 'SAR') : 'SAR';
         $currencySymbol = '$';
         if (!empty($currency)) {
             $currencyData = \App\Models\Currency::where('code', $currency)->first();
@@ -155,7 +155,7 @@ class ReferralController extends Controller
         // Get currency symbol
         $superAdmin = User::where('type', 'superadmin')->first();
         $superAdminSettings = settings($superAdmin->id);
-        $currency = $superAdminSettings ? ($superAdminSettings['defaultCurrency'] ?? 'USD') : 'USD';
+        $currency = $superAdminSettings ? ($superAdminSettings['defaultCurrency'] ?? 'SAR') : 'SAR';
         $currencySymbol = '$';
         if (!empty($currency)) {
             $currencyData = \App\Models\Currency::where('code', $currency)->first();
@@ -250,7 +250,7 @@ class ReferralController extends Controller
         // Get currency symbol
         $superAdmin = User::where('type', 'superadmin')->first();
         $superAdminSettings = settings($superAdmin->id);
-        $currency = $superAdminSettings ? ($superAdminSettings['defaultCurrency'] ?? 'USD') : 'USD';
+        $currency = $superAdminSettings ? ($superAdminSettings['defaultCurrency'] ?? 'SAR') : 'SAR';
         $currencySymbol = '$';
         if (!empty($currency)) {
             $currencyData = \App\Models\Currency::where('code', $currency)->first();

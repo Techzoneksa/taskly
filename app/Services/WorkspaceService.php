@@ -114,7 +114,7 @@ class WorkspaceService
                 ->where('key', 'defaultLanguage')
                 ->value('value') ?? 'en';
 
-            $rtlLanguages = ['ar', 'he'];
+            $rtlLanguages = ['ar'];
             $layoutDirection = in_array($defaultLanguage, $rtlLanguages) ? 'right' : 'left';
 
             $user = User::where('email', $invitation->email)->first();

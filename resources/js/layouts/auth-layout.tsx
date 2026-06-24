@@ -68,7 +68,7 @@ export default function AuthLayout({
     const applyRTLDirection = React.useCallback(() => {
         const isDemo = globalSettings?.is_demo || false;
         const currentLang = i18n.language || globalSettings?.defaultLanguage || 'en';
-        const isRTLLanguage = ['ar', 'he'].includes(currentLang);
+        const isRTLLanguage = ['ar'].includes(currentLang);
         let dir = 'ltr';
 
         // Check RTL setting from cookies/globalSettings

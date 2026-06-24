@@ -55,7 +55,7 @@ export function PayPalPaymentModal({ isOpen, onClose, invoice, amount, paypalCli
           purchase_units: [{
             amount: {
               value: (typeof amount === 'string' ? parseFloat(amount) : amount).toFixed(2),
-              currency_code: 'USD'
+              currency_code: 'SAR'
             }
           }]
         });

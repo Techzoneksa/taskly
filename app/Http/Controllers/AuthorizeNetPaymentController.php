@@ -13,7 +13,7 @@ class AuthorizeNetPaymentController extends Controller
 {
     private const SUPPORTED_COUNTRIES = ['US', 'CA', 'GB', 'AU'];
     private const SUPPORTED_CURRENCIES = [
-        'USD', 'CAD', 'CHF', 'DKK', 'EUR', 'GBP', 'NOK', 'PLN', 'SEK', 'AUD', 'NZD'
+        'SAR'
     ];
 
     public function createPaymentForm(Request $request)
@@ -30,10 +30,10 @@ class AuthorizeNetPaymentController extends Controller
                 return response()->json(['error' => 'AuthorizeNet not properly configured'], 400);
             }
 
-            $currency = $settings['general_settings']['currency'] ?? 'USD';
+            $currency = $settings['general_settings']['currency'] ?? 'SAR';
             
             if (!in_array($currency, self::SUPPORTED_CURRENCIES)) {
-                $currency = 'USD';
+                $currency = 'SAR';
             }
 
             return response()->json([
@@ -492,7 +492,7 @@ class AuthorizeNetPaymentController extends Controller
                 'success' => true,
                 'merchant_id' => $settings['authorizenet_merchant_id'],
                 'amount' => number_format($validated['amount'], 2, '.', ''),
-                'currency' => 'USD',
+                'currency' => 'SAR',
                 'is_sandbox' => $settings['authorizenet_mode'] === 'sandbox',
                 'supported_countries' => self::SUPPORTED_COUNTRIES,
                 'supported_currencies' => self::SUPPORTED_CURRENCIES,
@@ -669,7 +669,7 @@ class AuthorizeNetPaymentController extends Controller
                 'success' => true,
                 'merchant_id' => $paymentSettings['authorizenet_merchant_id'],
                 'amount' => number_format($validated['amount'], 2, '.', ''),
-                'currency' => 'USD',
+                'currency' => 'SAR',
                 'is_sandbox' => ($paymentSettings['authorizenet_mode'] ?? 'sandbox') === 'sandbox',
                 'supported_countries' => self::SUPPORTED_COUNTRIES,
                 'supported_currencies' => self::SUPPORTED_CURRENCIES,

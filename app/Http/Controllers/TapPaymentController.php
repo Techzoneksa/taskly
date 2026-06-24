@@ -37,7 +37,7 @@ class TapPaymentController extends Controller
 
             $chargeData = [
                 'amount' => $pricing['final_price'],
-                'currency' => 'USD',
+                'currency' => 'SAR',
                 'threeDSecure' => 'true',
                 'description' => 'Plan: ' . $plan->name,
                 'statement_descriptor' => 'Plan Subscription',
@@ -197,7 +197,7 @@ class TapPaymentController extends Controller
 
             $chargeData = [
                 'amount' => $request->amount,
-                'currency' => 'USD',
+                'currency' => 'SAR',
                 'threeDSecure' => 'true',
                 'description' => 'Invoice #' . $invoice->invoice_number . ' Payment',
                 'statement_descriptor' => 'Invoice Payment',
@@ -343,7 +343,7 @@ class TapPaymentController extends Controller
 
             $chargeData = [
                 'amount' => $request->amount,
-                'currency' => 'USD',
+                'currency' => 'SAR',
                 'threeDSecure' => 'true',
                 'description' => 'Invoice #' . $invoice->invoice_number . ' Payment',
                 'statement_descriptor' => 'Invoice Payment',

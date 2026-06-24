@@ -66,7 +66,7 @@ export function AppSidebar() {
     }, []);
     
     // Check if current language is RTL
-    const isRTL = ['ar', 'he'].includes(currentLang);
+    const isRTL = ['ar'].includes(currentLang);
 
     const getNavItems = (): NavItem[] => {
         const items: NavItem[] = [];

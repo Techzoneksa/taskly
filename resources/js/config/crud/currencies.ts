@@ -76,7 +76,7 @@ export const currenciesConfig: CrudConfig = {
         label: t('Currency Code'), 
         type: 'text', 
         required: true,
-        placeholder: t('e.g. USD, EUR, GBP')
+        placeholder: t('e.g. SAR')
       },
       { 
         name: 'symbol', 

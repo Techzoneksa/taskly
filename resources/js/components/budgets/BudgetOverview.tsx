@@ -15,7 +15,7 @@ interface BudgetOverviewProps {
     currency?: string;
 }
 
-export default function BudgetOverview({ summary, currency = 'USD' }: BudgetOverviewProps) {
+export default function BudgetOverview({ summary, currency = 'SAR' }: BudgetOverviewProps) {
     if (!summary) {
         return (
             <div className="text-center py-8 text-gray-500">

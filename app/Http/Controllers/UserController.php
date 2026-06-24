@@ -191,7 +191,7 @@ class UserController extends BaseController
                     'invited_by' => $authUser->id
                 ]);
 
-                $rtlLanguages = ['ar', 'he'];
+                $rtlLanguages = ['ar'];
                 $layoutDirection = in_array($userLang, $rtlLanguages) ? 'right' : 'left';
                 \App\Models\Setting::updateOrCreate(
                     ['user_id' => $user->id, 'workspace_id' => $authUser->current_workspace_id, 'key' => 'layoutDirection'],

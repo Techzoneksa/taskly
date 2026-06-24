@@ -29,10 +29,10 @@ export function AuthorizeNetPaymentForm({
   couponCode,
   billingCycle,
   authorizenetMerchantId,
-  currency = 'USD',
+  currency = 'SAR',
   isSandbox = false,
   supportedCountries = ['US', 'CA', 'GB', 'AU'],
-  supportedCurrencies = ['USD', 'CAD', 'CHF', 'DKK', 'EUR', 'GBP', 'NOK', 'PLN', 'SEK', 'AUD', 'NZD'],
+  supportedCurrencies = ['SAR'],
   onSuccess,
   onCancel,
 }: AuthorizeNetPaymentFormProps) {

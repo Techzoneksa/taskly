@@ -30,7 +30,7 @@ class SendInvoiceNotificationEmail
                 '{invoice_title}' => $invoice->title ?? '-',
                 '{project_name}' => $invoice->project->title ?? '-',
                 '{total_amount}' => number_format($invoice->total_amount, 2) ?? '-',
-                '{currency}' => $invoice->project->currency ?? 'USD',
+                '{currency}' => $invoice->project->currency ?? 'SAR',
                 '{due_date}' => $invoice->due_date ? $invoice->due_date->format('M d, Y') : '-',
                 '{workspace_name}' => $invoice->workspace->name ?? '-',
                 '{creator_name}' => $invoice->creator->name ?? '-',

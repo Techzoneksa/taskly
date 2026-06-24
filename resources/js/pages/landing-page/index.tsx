@@ -124,7 +124,7 @@ export default function LandingPage() {
   const applyRTLDirection = React.useCallback(() => {
     const isDemo = globalSettings?.is_demo || false;
     const currentLang = userLanguage || globalSettings?.defaultLanguage || 'en';
-    const isRTLLanguage = ['ar', 'he'].includes(currentLang);
+    const isRTLLanguage = ['ar'].includes(currentLang);
     let dir = 'ltr';
 
     let data = getCookie('brandSettings');

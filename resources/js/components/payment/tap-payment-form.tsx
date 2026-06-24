@@ -23,7 +23,7 @@ export function TapPaymentForm({
   couponCode,
   billingCycle,
   tapSecretKey,
-  currency = 'USD',
+  currency = 'SAR',
   onSuccess,
   onCancel,
 }: TapPaymentFormProps) {

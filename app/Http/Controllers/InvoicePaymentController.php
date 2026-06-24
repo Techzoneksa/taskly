@@ -47,9 +47,9 @@ class InvoicePaymentController extends Controller
             ->toArray();
 
         // Resolve currency symbol from Currency model using defaultCurrency code
-        $currencyCode = $invoiceSettings['defaultCurrency'] ?? 'USD';
+        $currencyCode = $invoiceSettings['defaultCurrency'] ?? 'SAR';
         $currency = \App\Models\Currency::where('code', $currencyCode)->first();
-        $invoiceSettings['currencySymbol'] = $currency ? $currency->symbol : '$';
+        $invoiceSettings['currencySymbol'] = $currency ? $currency->symbol : 'ر.س';
             
 
 
@@ -89,9 +89,9 @@ class InvoicePaymentController extends Controller
             ->toArray();
 
         // Resolve currency symbol from Currency model using defaultCurrency code
-        $currencyCode = $invoiceSettings['defaultCurrency'] ?? 'USD';
+        $currencyCode = $invoiceSettings['defaultCurrency'] ?? 'SAR';
         $currency = \App\Models\Currency::where('code', $currencyCode)->first();
-        $invoiceSettings['currencySymbol'] = $currency ? $currency->symbol : '$';
+        $invoiceSettings['currencySymbol'] = $currency ? $currency->symbol : 'ر.س';
 
         return Inertia::render('invoices/Preview', [
             'invoice' => $invoiceData,

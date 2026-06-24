@@ -289,7 +289,7 @@ export default function CurrenciesPage() {
         formConfig={{
           fields: [
             { name: 'name', label: t('Currency Name'), type: 'text', required: true, placeholder: t('e.g. US Dollar, Euro') },
-            { name: 'code', label: t('Currency Code'), type: 'text', required: true, placeholder: t('e.g. USD, EUR, GBP') },
+            { name: 'code', label: t('Currency Code'), type: 'text', required: true, placeholder: t('e.g. SAR') },
             { name: 'symbol', label: t('Currency Symbol'), type: 'text', required: true, placeholder: t('e.g. $, €, £') },
             { name: 'description', label: t('Description'), type: 'textarea', placeholder: t('Enter currency description') },
             { name: 'is_default', label: '', type: 'checkbox', placeholder: t('Set as Default Currency') }

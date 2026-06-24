@@ -86,7 +86,7 @@ class ContractSeeder extends Seeder
                         'assigned_users'   => $assignedUsers,
                         'terms_conditions' => $this->generateTerms(),
                         'notes'            => $this->generateNotes(),
-                        'currency'         => 'USD',
+                        'currency'         => 'SAR',
                         'workspace_id'     => $workspace->id,
                         'created_by'       => $creator->id,
                         'sent_at'          => in_array($status, ['sent', 'accept', 'decline', 'expired']) ? $startDate->copy()->subDays(random_int(1, 5)) : null,

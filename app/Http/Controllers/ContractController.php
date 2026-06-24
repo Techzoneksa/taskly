@@ -180,7 +180,7 @@ class ContractController extends Controller
             'assigned_users' => $request->assigned_users,
             'terms_conditions' => $request->terms_conditions,
             'notes' => $request->notes,
-            'currency' => $request->currency ?? 'USD',
+            'currency' => $request->currency ?? 'SAR',
             'workspace_id' => auth()->user()->current_workspace_id,
             'created_by' => auth()->id(),
         ]);

@@ -160,7 +160,7 @@ export function PaymentProcessor({
             {...commonProps}
             planPrice={finalPrice}
             paypalClientId={plan.paymentMethods?.paypal_client_id || ''}
-            currency={plan.paymentMethods?.defaultCurrency || 'usd'}
+            currency={plan.paymentMethods?.defaultCurrency || 'sar'}
           />
         );
       case 'bank':
@@ -213,7 +213,7 @@ export function PaymentProcessor({
             {...commonProps}
             planPrice={Number(plan.price)}
             paytabsClientKey={''}
-            currency={plan.paymentMethods?.currency || 'USD'}
+            currency={plan.paymentMethods?.currency || 'SAR'}
           />
         );
       case 'skrill':
@@ -222,7 +222,7 @@ export function PaymentProcessor({
             {...commonProps}
             planPrice={Number(plan.price)}
             skrillMerchantId={plan.paymentMethods?.skrill_merchant_id || ''}
-            currency={plan.paymentMethods?.currency || 'USD'}
+            currency={plan.paymentMethods?.currency || 'SAR'}
           />
         );
       case 'coingate':
@@ -231,7 +231,7 @@ export function PaymentProcessor({
             {...commonProps}
             planPrice={Number(plan.price)}
             coinGateApiToken={plan.paymentMethods?.coingate_api_token || ''}
-            currency={plan.paymentMethods?.currency || 'USD'}
+            currency={plan.paymentMethods?.currency || 'SAR'}
           />
         );
       case 'payfast':
@@ -267,7 +267,7 @@ export function PaymentProcessor({
             {...commonProps}
             planPrice={Number(plan.price)}
             mollieApiKey={plan.paymentMethods?.mollie_api_key || ''}
-            currency={plan.paymentMethods?.currency || 'EUR'}
+            currency={plan.paymentMethods?.currency || 'SAR'}
           />
         );
       case 'cashfree':
@@ -286,7 +286,7 @@ export function PaymentProcessor({
             {...commonProps}
             planPrice={Number(plan.price)}
             iyzipayPublicKey={plan.paymentMethods?.iyzipay_public_key || ''}
-            currency={plan.paymentMethods?.currency || 'USD'}
+            currency={plan.paymentMethods?.currency || 'SAR'}
           />
         );
       case 'benefit':
@@ -331,7 +331,7 @@ export function PaymentProcessor({
             {...commonProps}
             planPrice={Number(plan.price)}
             authorizenetMerchantId={plan.paymentMethods?.authorizenet_merchant_id || ''}
-            currency={plan.paymentMethods?.currency || 'USD'}
+            currency={plan.paymentMethods?.currency || 'SAR'}
           />
         );
       case 'fedapay':
@@ -412,7 +412,7 @@ export function PaymentProcessor({
             {...commonProps}
             planPrice={Number(plan.price)}
             tapSecretKey={plan.paymentMethods?.tap_secret_key || ''}
-            currency={plan.paymentMethods?.currency || 'USD'}
+            currency={plan.paymentMethods?.currency || 'SAR'}
           />
         );
       case 'xendit':

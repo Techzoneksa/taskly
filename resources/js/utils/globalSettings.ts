@@ -34,15 +34,15 @@ export function initializeGlobalSettings(settings: Record<string, any>) {
     // Set up currency settings
     const currencySettings = {
         decimalFormat: settings.decimalFormat || '2',
-        defaultCurrency: settings.defaultCurrency || 'USD',
+        defaultCurrency: settings.defaultCurrency || 'SAR',
         decimalSeparator: settings.decimalSeparator || '.',
         thousandsSeparator: settings.thousandsSeparator || ',',
         floatNumber: settings.floatNumber === '0' ? false : true,
         currencySymbolSpace: settings.currencySymbolSpace === '1',
         currencySymbolPosition: settings.currencySymbolPosition || 'before',
-        currencySymbol: settings.currencySymbol || '$',
-        currencyCode: settings.currencyCode || 'USD',
-        currencyName: settings.currencyNname || 'US Dollar'
+        currencySymbol: settings.currencySymbol || 'ر.س',
+        currencyCode: settings.currencyCode || 'SAR',
+        currencyName: settings.currencyNname || 'SAR'
     };
 
     window.appSettings = {

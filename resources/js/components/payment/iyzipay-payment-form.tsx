@@ -24,7 +24,7 @@ export function IyzipayPaymentForm({
   couponCode,
   billingCycle,
   iyzipayPublicKey,
-  currency = 'USD',
+  currency = 'SAR',
   onSuccess,
   onCancel,
 }: IyzipayPaymentFormProps) {

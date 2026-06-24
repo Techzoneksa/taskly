@@ -29,7 +29,7 @@ export default function CurrencySettings() {
     // Currency Settings form state
     const [currencySettings, setCurrencySettings] = useState({
         decimalFormat: systemSettings.decimalFormat || '2',
-        defaultCurrency: systemSettings.defaultCurrency || 'USD',
+        defaultCurrency: systemSettings.defaultCurrency || 'SAR',
         decimalSeparator: systemSettings.decimalSeparator || '.',
         thousandsSeparator: systemSettings.thousandsSeparator || ',',
         floatNumber: systemSettings.floatNumber === '0' ? false : true,

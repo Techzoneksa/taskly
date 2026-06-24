@@ -230,7 +230,7 @@ export function CrudTable({
 
       case 'currency':
         return <span className="text-sm">{typeof value === 'number' ?
-          value.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) :
+          value.toLocaleString('en-US', { style: 'currency', currency: 'SAR' }) :
           value}</span>;
 
       case 'boolean':

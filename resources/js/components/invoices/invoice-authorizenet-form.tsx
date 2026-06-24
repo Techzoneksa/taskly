@@ -187,7 +187,7 @@ export function InvoiceAuthorizeNetForm({ invoice, amount, onSuccess, onCancel }
           <span>✓</span>
           <span>{t('Powered by AuthorizeNet - Secure payment processing')}</span>
         </div>
-        <div>{t('Supported currencies')}: USD, CAD, CHF, DKK, EUR, GBP, NOK, PLN, SEK, AUD, NZD</div>
+        <div>{t('Supported currencies')}: SAR</div>
         <div>{t('Supported countries')}: US, CA, GB, AU</div>
       </div>
     </div>

@@ -21,7 +21,7 @@ export const productsConfig: CrudConfig = {
         key: 'price', 
         label: t('Price'), 
         sortable: true, 
-        render: columnRenderers.price('USD')
+        render: columnRenderers.price('SAR')
       },
       { 
         key: 'category.name', 

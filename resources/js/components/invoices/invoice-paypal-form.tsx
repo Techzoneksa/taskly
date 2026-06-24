@@ -44,7 +44,7 @@ export function InvoicePayPalForm({
               purchase_units: [{
                 amount: {
                   value: numericAmount,
-                  currency_code: 'USD'
+                  currency_code: 'SAR'
                 }
               }]
             });

@@ -70,7 +70,7 @@ export const LayoutProvider = ({ children }: { children: ReactNode }) => {
         const checkRtl = () => {
             const dirAttr = document.documentElement.dir;
             const lang = document.documentElement.lang;
-            const isRtlLang = ['ar', 'he'].includes(lang);
+            const isRtlLang = ['ar'].includes(lang);
             setIsRtl(dirAttr === 'rtl' || isRtlLang);
         };
 

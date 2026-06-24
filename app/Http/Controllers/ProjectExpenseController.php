@@ -212,7 +212,7 @@ class ProjectExpenseController extends Controller
             ...$validated,
             'submitted_by' => auth()->id(),
             'status' => 'pending',
-            'currency' => 'USD'
+            'currency' => 'SAR'
         ]);
 
         // Load relationships for email

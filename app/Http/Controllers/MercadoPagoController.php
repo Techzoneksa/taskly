@@ -30,7 +30,7 @@ class MercadoPagoController extends Controller
         return [
             'access_token' => $settings['access_token'] ?? null,
             'mode' => $settings['mode'] ?? 'sandbox',
-            'currency' => $settings['currency'] ?? 'USD'
+            'currency' => $settings['currency'] ?? 'SAR'
         ];
     }
 
@@ -434,7 +434,7 @@ class MercadoPagoController extends Controller
             $item->title = 'Invoice #' . $invoice->invoice_number;
             $item->quantity = 1;
             $item->unit_price = (float) $amount;
-            $item->currency_id = 'USD';
+            $item->currency_id = 'SAR';
             $item->id = 'invoice_' . $invoice->id;
             
             $preference->items = [$item];
@@ -520,7 +520,7 @@ class MercadoPagoController extends Controller
             $item->title = 'Invoice #' . $invoice->invoice_number;
             $item->quantity = 1;
             $item->unit_price = (float) $amount;
-            $item->currency_id = 'USD';
+            $item->currency_id = 'SAR';
             $item->id = 'invoice_' . $invoice->id;
             
             $preference->items = [$item];

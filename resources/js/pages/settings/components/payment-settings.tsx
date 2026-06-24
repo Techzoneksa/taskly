@@ -153,7 +153,7 @@ export default function PaymentSettings({ settings = {} }: PaymentSettingsProps)
 
   // Form state
   const { data, setData, post, processing, errors } = useForm<PaymentSettings>({
-    currency: settings.currency || 'USD',
+    currency: settings.currency || 'SAR',
     currency_symbol: settings.currency_symbol || '$',
     is_manually_enabled: settings.is_manually_enabled === true || settings.is_manually_enabled === '1',
     is_bank_enabled: settings.is_bank_enabled === true || settings.is_bank_enabled === '1',

@@ -330,7 +330,7 @@ export default function Dashboard({ dashboardData, isSuperAdmin, isSaasMode = tr
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-muted-foreground">{t('Default')}</span>
-                    <span className="font-semibold">{dashboardData?.currencies?.default ?? 'USD'}</span>
+                    <span className="font-semibold">{dashboardData?.currencies?.default ?? 'SAR'}</span>
                   </div>
                   <Link href={route('currencies.index')} className="block">
                     <div className="text-xs text-primary hover:underline mt-2">{t('Manage Currencies')} →</div>

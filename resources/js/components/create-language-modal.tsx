@@ -68,7 +68,7 @@ export function CreateLanguageModal({ open, onOpenChange, onSuccess }: CreateLan
                         <Label htmlFor="code" required>{t('Language Code')}</Label>
                         <Input
                             id="code"
-                            placeholder="e.g., fr, de, es"
+                            placeholder="e.g., en, ar"
                             value={formData.code}
                             onChange={(e) => { setFormData({ ...formData, code: e.target.value }); setErrors(p => ({ ...p, code: '' })); }}
                             className={errors.code ? 'border-red-500' : ''}
@@ -79,7 +79,7 @@ export function CreateLanguageModal({ open, onOpenChange, onSuccess }: CreateLan
                         <Label htmlFor="name" required>{t('Language Name')}</Label>
                         <Input
                             id="name"
-                            placeholder="e.g., French, German, Spanish"
+                            placeholder="e.g., English, Arabic"
                             value={formData.name}
                             onChange={(e) => { setFormData({ ...formData, name: e.target.value }); setErrors(p => ({ ...p, name: '' })); }}
                             className={errors.name ? 'border-red-500' : ''}

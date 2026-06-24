@@ -597,7 +597,7 @@ if (! function_exists('getPaymentMethodConfig2')) {
                     'merchant_id' => $settings['authorizenet_merchant_id'] ?? null,
                     'transaction_key' => $settings['authorizenet_transaction_key'] ?? null,
                     'supported_countries' => ['US', 'CA', 'GB', 'AU'],
-                    'supported_currencies' => ['USD', 'CAD', 'CHF', 'DKK', 'EUR', 'GBP', 'NOK', 'PLN', 'SEK', 'AUD', 'NZD'],
+                    'supported_currencies' => ['SAR'],
                 ];
 
             case 'fedapay':

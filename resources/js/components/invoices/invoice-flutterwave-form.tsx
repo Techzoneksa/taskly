@@ -55,7 +55,7 @@ export function InvoiceFlutterwaveForm({
         public_key: flutterwavePublicKey,
         tx_ref: txRef,
         amount: amount,
-        currency: 'USD',
+        currency: 'SAR',
         payment_options: 'card,mobilemoney,ussd',
         customer: {
           email: 'customer@example.com',
